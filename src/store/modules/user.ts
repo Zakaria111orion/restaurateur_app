@@ -14,7 +14,7 @@ const actions = {
     async fetchUser (){
         await axios.post('http://127.0.0.1:8080/signIn', state.form )
         .then(response => {
-            
+
          })
     }
    
