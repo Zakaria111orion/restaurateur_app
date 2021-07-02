@@ -4,7 +4,7 @@
         <v-card class="justify-center" 
         elevation="1">
             <v-card-title class=" amber darken-1 ">
-                <h4> Products </h4> 
+                <h4> Products from {{getUser.name}} </h4> 
                 <v-spacer></v-spacer>
                 <v-btn text outlined color="green  accent-4"> Add product </v-btn>
                 
@@ -14,7 +14,7 @@
             <v-col md="5" offset-md="3">
             <v-card-text>
                 
-                    <div :key="product._id" v-for="product in products">
+                    <div :key="product._id" v-for="product in allProducts">
                         <Product :product=product />
                     </div>
                
@@ -30,31 +30,46 @@
 <script lang="ts">
 
 import Product from '@/components/pro.vue'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
     
     name: 'Products',
-    props:{
-        products: [],
-    },
+
     data (){
         return {
-           
+           token: ''
         }
 
     },
-    computed: mapGetters(["allProducts"]),
     
     methods: {
+        ...mapActions(["fetchProducts"]),
+
+        geto() {
+          this.token =this.getToken;
+      },
 
 
     },
-    
+     
+    computed: {
+        ...mapGetters(["allProducts", "getUser", "getToken"]),
+        
+    },
+    created(){
+        if(this.getToken == '' ){this.$router.push('/Login')}
+       else{this.fetchProducts(this.getToken)}
+        
+    },
     
     components:{
         Product
       
 
+    },
+
+    watch:{
+      
     }
 
 

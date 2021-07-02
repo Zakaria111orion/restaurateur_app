@@ -1,11 +1,10 @@
 <template>
-  <Products :products="products"  />
 </template>
 
 <script lang="ts">
 
 import Vue from "vue";
-import Products from "../components/Products.vue";
+//import Products from "../components/Products.vue";
 
 export default Vue.extend({
   name: "Home",
@@ -40,9 +39,7 @@ export default Vue.extend({
             },
 
 
-  components: {
-    Products
-  },
+ 
   async created(){
     
       this.getProduct();

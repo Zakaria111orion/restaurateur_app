@@ -9,7 +9,7 @@
     outlined>
         <v-card-title class="amber darken-3">
             <h4>
-            Login</h4>
+            Login </h4>
             <v-spacer></v-spacer>
         </v-card-title>
         <v-card-text class="text-center" >
@@ -58,13 +58,13 @@
 <script>
 import axios from 'axios'
 import VueCookies from 'vue-cookies';
+import {mapGetters, mapActions} from 'vuex'
 
 axios.defaults.withCredentials = true
 export default {
   name: 'Login',
   data () {
       return {
-        token: '',
         form: {
                 email: '',
                 password: ''
@@ -72,31 +72,26 @@ export default {
       }
     },
     computed: {
-      user () {
-        return this.$store.getters.user
-      }
+      ...mapGetters(["getUser", "getToken"]),
     },
-    watch: {
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/')
-        }
+    watch:{
+      getToken:function(newVal,oldVal){
+        if(newVal !== null && oldVal == ''){this.$router.push('/Products')}
+        
       }
     },
      
-   
     methods: {
+      ...mapActions(["fetchUser"]),
 
-      onSignup () {
-        
-      this.axios.post('http://127.0.0.1:8080/signIn', this.form )
-      .then(response => ( 
-        this.$cookies.set("token", response.data.token),
-        this.$router.push('/about')
-        
-        ))
+     async  onSignup  () {
+      await this.fetchUser(this.form);
+
+      console.log(this.getToken) 
+      
       }
-    }
+    },
+    
 
 }
 </script>
